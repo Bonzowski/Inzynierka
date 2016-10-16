@@ -1,80 +1,79 @@
 package pl.marcin.inzynierka;
 
-        import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
-        import android.util.Log;
+        import android.support.v7.app.AppCompatActivity;
+        import android.text.Layout;
+        import android.view.View;
+        import android.widget.EditText;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
 
-        import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
-        import com.kontakt.sdk.android.ble.manager.ProximityManager;
-        import com.kontakt.sdk.android.ble.manager.ProximityManagerContract;
-        import com.kontakt.sdk.android.ble.manager.listeners.EddystoneListener;
-        import com.kontakt.sdk.android.ble.manager.listeners.IBeaconListener;
-        import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleEddystoneListener;
-        import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleIBeaconListener;
-        import com.kontakt.sdk.android.common.KontaktSDK;
-        import com.kontakt.sdk.android.common.profile.IBeaconDevice;
-        import com.kontakt.sdk.android.common.profile.IBeaconRegion;
-        import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
-        import com.kontakt.sdk.android.common.profile.IEddystoneNamespace;
+        import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+        import static pl.marcin.inzynierka.R.layout.activity_main;
 
-    private ProximityManagerContract proximityManager;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private MyPresenter presenter;
+    private LinearLayout mainLayout;
+    private ArrayList<EditText> beaconNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        KontaktSDK.initialize(getString(R.string.kontakt_io_api_key));
+        setContentView(activity_main);
+        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
 
-        proximityManager = new ProximityManager(this);
-        proximityManager.setIBeaconListener(createIBeaconListener());
-        proximityManager.setEddystoneListener(createEddystoneListener());
+        findViewById(R.id.start_button).setOnClickListener(this);
+        findViewById(R.id.stop_button).setOnClickListener(this);
+
+        if (presenter == null)
+            presenter = new MyPresenter();
+        presenter.onTakeView(this);
+
     }
 
     @Override
-    protected void onStart() {
+    public void onStart(){
         super.onStart();
-        startScanning();
+        getBeacons();
     }
 
-    @Override
-    protected void onStop() {
-        proximityManager.stopScanning();
-        super.onStop();
+    protected void getBeacons(){
+
+        beaconNames = new ArrayList<>();
+        for (int i = 0; i < mainLayout.getChildCount(); i++) {
+            if (mainLayout.getChildAt(i) instanceof EditText) {
+                beaconNames.add((EditText) mainLayout.getChildAt(i));
+            }
+        }
+
     }
 
     @Override
     protected void onDestroy() {
-        proximityManager.disconnect();
-        proximityManager = null;
         super.onDestroy();
+        presenter.onTakeView(null);
+        if (!isChangingConfigurations())
+            presenter = null;
     }
 
-    private void startScanning() {
-        proximityManager.connect(new OnServiceReadyListener() {
-            @Override
-            public void onServiceReady() {
-                proximityManager.startScanning();
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.start_button:
+                presenter.startScanning();
+                break;
+            case R.id.stop_button:
+                presenter.stopScanning();
+                break;
+        }
+
+
     }
 
-    private IBeaconListener createIBeaconListener() {
-        return new SimpleIBeaconListener() {
-            @Override
-            public void onIBeaconDiscovered(IBeaconDevice ibeacon, IBeaconRegion region) {
-                Log.i("Sample", "IBeacon discovered: " + ibeacon.getUniqueId());
-            }
-        };
+    public void setBeaconName(int counter, String name){
+        beaconNames.get(counter).setText(name);
     }
 
-    private EddystoneListener createEddystoneListener() {
-        return new SimpleEddystoneListener() {
-            @Override
-            public void onEddystoneDiscovered(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
-                Log.i("Sample", "Eddystone discovered: " + eddystone.getUniqueId());
-            }
-        };
-    }
 }
