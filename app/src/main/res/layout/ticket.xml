@@ -1,0 +1,149 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="129dp"
+        android:background="@color/lb_page_indicator_arrow_background">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ticket_id_subt"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/ticket_id"
+                android:layout_marginBottom="34dp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ticket_id"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:layout_above="@+id/ticket_id_subt"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="129dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Queue id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/queue_id_subt"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/queue_id"
+                android:layout_marginBottom="34dp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/queue_id"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:layout_above="@+id/queue_id_subt"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="129dp"
+        android:background="@color/lb_page_indicator_arrow_background">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/date"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_above="@+id/date_subt"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="23dp"
+                android:background="@drawable/back_white"
+                android:maxLines="4"
+                android:minLines="1"
+                android:textAlignment="viewStart" />
+
+            <TextView
+                android:text="Ticket issue time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_subt"
+                android:textSize="14sp"
+                android:layout_weight="1"
+
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/date"
+                android:layout_marginBottom="34dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/estimated_time"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textAlignment="viewEnd"
+                android:layout_alignBaseline="@+id/date"
+                android:layout_alignBottom="@+id/date"
+                android:layout_alignParentEnd="true"
+
+                android:layout_marginEnd="37dp"
+                android:text="10 minutes" />
+
+            <TextView
+                android:text="Estimated time to wait"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/estimated_time_subt"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:layout_alignBaseline="@+id/date_subt"
+                android:layout_alignBottom="@+id/date_subt"
+                android:layout_alignEnd="@+id/estimated_time" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

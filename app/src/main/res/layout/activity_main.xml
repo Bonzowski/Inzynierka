@@ -3,7 +3,8 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <Button
         android:id="@+id/start_button"
@@ -11,32 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:onClick="startScanning"
-        android:text="Start scanning" />
-
-    <Button
-        android:id="@+id/stop_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:onClick="startScanning"
-        android:text="Stop scanning" />
-
-
-    <EditText
-        android:id="@+id/beacon1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:shadowColor="@color/colorPrimaryDark"
-        android:fontFamily="sans-serif"
-        android:inputType="none"/>
-
-    <EditText
-        android:id="@+id/beacon2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:shadowColor="@color/colorPrimaryDark"
-        android:layout_margin="20dp"
-        android:inputType="none" />
+        android:text="Search for beacons"
+        android:drawable="@color/common_signin_btn_default_background"/>
 
 </LinearLayout>
