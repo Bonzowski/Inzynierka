@@ -36,7 +36,9 @@ public class QueuesPresenter {
     public void getQueues() throws ExecutionException, InterruptedException, JSONException {
         if (ConnectionAvailability.IsNetworkEnabled(view.getBaseContext())) {
 
-            JSONObject answer = new ServerConnectionModel().execute(context.getString(R.string.get_Queues)).get();
+            String query = ServerConnectionModel.prefix + ServerConnectionModel.ipAddress + context.getString(R.string.get_Queues);
+
+            JSONObject answer = new ServerConnectionModel().execute(query).get();
             queuesAnswer = new QueuesParser(answer);
         }
         else
@@ -46,7 +48,7 @@ public class QueuesPresenter {
     public void getTicket(int queue) throws ExecutionException, InterruptedException, JSONException {
         if (ConnectionAvailability.IsNetworkEnabled(view.getBaseContext())){
 
-            String query = context.getString(R.string.get_Ticket) + Integer.toString(queue);
+            String query = ServerConnectionModel.prefix + ServerConnectionModel.ipAddress + context.getString(R.string.get_Ticket) + Integer.toString(queue);
 
             JSONObject answer = new ServerConnectionModel().execute(query).get();
             parsedAnswer = new TicketParser(answer);

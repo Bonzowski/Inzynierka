@@ -22,6 +22,9 @@ public class ServerConnectionModel extends AsyncTask<String,Void,JSONObject> {
     OkHttpClient client = new OkHttpClient();
     public static JSONObject response = null;
 
+    public static String prefix = "http://";
+    public static String ipAddress = "192.168.0.14:8081";
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

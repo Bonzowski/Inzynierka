@@ -1,13 +1,20 @@
 package pl.marcin.inzynierka.FirstScreen;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import pl.marcin.inzynierka.Connection.ServerConnectionModel;
 import pl.marcin.inzynierka.MainMenu.QueuesActivity;
 import pl.marcin.inzynierka.R;
 
@@ -21,12 +28,18 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
 
     private BeaconSearchPresenter bPresenter;
     private ProgressDialog progressDialog;
+    private Button changeIP;
+    private int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
         findViewById(R.id.start_button).setOnClickListener(this);
+        changeIP = (Button) findViewById(R.id.change);
+        changeIP.setOnClickListener(this);
+        changeIP.setVisibility(View.VISIBLE);
+        changeIP.setBackgroundColor(Color.TRANSPARENT);
 
         if (bPresenter == null)
             bPresenter = new BeaconSearchPresenter();
@@ -36,7 +49,18 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onStart(){
         super.onStart();
+
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (bPresenter == null)
+            bPresenter = new BeaconSearchPresenter();
+        bPresenter.onTakeView(this);
+    }
+
+
 
     //handling the UI changes
     public Handler progressHandler = new Handler(){
@@ -51,7 +75,6 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
                     noBeacons();
                     break;
                 case 3:
-                    progressHandler = null;
                     break;
             }
         }
@@ -61,20 +84,53 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.start_button:
-                Thread thread = new Thread(this);
+                final Thread thread = new Thread(this);
                 thread.start();
                 progressDialog = ProgressDialog.show(this, "Please wait..", "Searching for beacons", true, false);
-
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(progressHandler != null)
+                        if(thread.isAlive())
                             progressHandler.sendEmptyMessage(2);
                     }
-                }, 5000);
+                }, 6000);
+                break;
+
+            case R.id.change:
+                counter++;
+                        if(counter == 3){
+                            alertPopup();
+                            counter = 0;
+                        }
                 break;
         }
+    }
+
+    //popup for emergency IP address change
+    public void alertPopup(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Setting");
+        alert.setMessage("Type server's new IP and port");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+               ServerConnectionModel.ipAddress = input.getText().toString(); // Do something with value!
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
     }
 
     @Override
@@ -87,6 +143,7 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    //toasts section
     private void noBluetooth(){
         Toast.makeText(this,getText(R.string.no_bluetooth),Toast.LENGTH_LONG).show();
     }
@@ -95,14 +152,17 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
         Toast.makeText(this,getText(R.string.no_beacons),Toast.LENGTH_LONG).show();
     }
 
+    //forth and back navigation
     public void navigateToQueues(){
-
         progressHandler.sendEmptyMessage(3);
-
         bPresenter.stopScanning();
         bPresenter.destroyModel();
         startActivity(new Intent(this, QueuesActivity.class));
-        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 }

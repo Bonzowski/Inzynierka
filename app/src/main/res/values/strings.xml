@@ -4,6 +4,6 @@
     <string name="no_internet"> No internet connection. Try again. </string>
     <string name="no_bluetooth"> BlueTooth is not enabled. Try again. </string>
     <string name="no_beacons"> No beacons in range. Try again. </string>
-    <string name="get_Queues">http://192.168.0.14:8081/queues</string>
-    <string name="get_Ticket">http://192.168.0.14:8081/getTicket?queue_id=</string>
+    <string name="get_Queues">/queues</string>
+    <string name="get_Ticket">/getTicket?queue_id=</string>
 </resources>
