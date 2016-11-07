@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import pl.marcin.inzynierka.Connection.ConnectionAvailability;
 import pl.marcin.inzynierka.Connection.ServerConnectionModel;
 import pl.marcin.inzynierka.MainMenu.QueuesActivity;
 import pl.marcin.inzynierka.R;
@@ -30,6 +31,7 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
     private ProgressDialog progressDialog;
     private Button changeIP;
     private int counter = 0;
+    private boolean beaconFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +85,25 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
             case R.id.start_button:
-                final Thread thread = new Thread(this);
-                thread.start();
+                beaconFound = false;
+
+                final Thread searchingForBeaconsThread = new Thread(this);
+                searchingForBeaconsThread.start();
                 progressDialog = ProgressDialog.show(this, "Please wait..", "Searching for beacons", true, false);
+
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(thread.isAlive())
-                            progressHandler.sendEmptyMessage(2);
+                            if(beaconFound)
+                                progressHandler.sendEmptyMessage(3);
+                            else
+                                progressHandler.sendEmptyMessage(2);
+                                searchingForBeaconsThread.interrupt();
                     }
-                }, 6000);
+                }, 4000);
                 break;
 
             case R.id.change:
@@ -152,12 +161,21 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
         Toast.makeText(this,getText(R.string.no_beacons),Toast.LENGTH_LONG).show();
     }
 
+    private void noNetwork() {
+        Toast.makeText(this, getText(R.string.no_internet), Toast.LENGTH_LONG).show();
+    }
+
     //forth and back navigation
     public void navigateToQueues(){
         progressHandler.sendEmptyMessage(3);
         bPresenter.stopScanning();
-        bPresenter.destroyModel();
-        startActivity(new Intent(this, QueuesActivity.class));
+        beaconFound = true;
+        if (ConnectionAvailability.IsNetworkEnabled(this)){
+            bPresenter.destroyModel();
+            startActivity(new Intent(this, QueuesActivity.class));
+        }
+        else
+            noNetwork();
     }
 
     @Override
