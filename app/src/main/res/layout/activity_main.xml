@@ -20,4 +20,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/change" />
 
+    <Button
+        android:id="@+id/database"
+        android:text="Browse tickets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:onClick="startScanning"
+        android:drawable="@color/common_signin_btn_default_background"/>
+
 </LinearLayout>
