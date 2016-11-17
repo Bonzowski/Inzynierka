@@ -1,10 +1,10 @@
-package pl.marcin.inzynierka.Database;
+package pl.marcin.inzynierka.Backend.Database;
 
 /**
  * Created by Marcin on 15.11.2016.
  */
 
-public class Ticket {
+public class TicketDatabaseObject {
 
     private long key;
     private int queue_id;

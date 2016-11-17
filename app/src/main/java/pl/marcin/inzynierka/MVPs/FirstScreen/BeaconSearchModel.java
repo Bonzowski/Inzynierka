@@ -1,4 +1,4 @@
-package pl.marcin.inzynierka.FirstScreen;
+package pl.marcin.inzynierka.MVPs.FirstScreen;
 
 import android.content.Context;
 import android.util.Log;
@@ -69,7 +69,7 @@ public class BeaconSearchModel extends Observable {
             public void onIBeaconDiscovered(IBeaconDevice ibeacon, IBeaconRegion region) {
                 iBeaconDevices.add(ibeacon);
                 setChanged();
-                notifyObservers();
+                notifyObservers(ibeacon);
                 Log.i("Sample", "IBeacon discovered: " + ibeacon.getUniqueId());
             }
         };
@@ -81,7 +81,7 @@ public class BeaconSearchModel extends Observable {
             public void onEddystoneDiscovered(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
                 iEddyStoneDevices.add(eddystone);
                 setChanged();
-                notifyObservers();
+                notifyObservers(eddystone);
                 Log.i("Sample", "Eddystone discovered: " + eddystone.getUniqueId());
             }
         };

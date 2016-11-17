@@ -1,4 +1,4 @@
-package pl.marcin.inzynierka.Database;
+package pl.marcin.inzynierka.Backend.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,7 +36,6 @@ public class TicketSQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DATABASE_CREATE);
-
     }
 
     @Override

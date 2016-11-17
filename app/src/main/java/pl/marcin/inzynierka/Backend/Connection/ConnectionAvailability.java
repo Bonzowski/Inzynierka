@@ -1,12 +1,9 @@
-package pl.marcin.inzynierka.Connection;
+package pl.marcin.inzynierka.Backend.Connection;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
-
-import pl.marcin.inzynierka.R;
 
 /**
  * Created by Marcin on 20.10.2016.

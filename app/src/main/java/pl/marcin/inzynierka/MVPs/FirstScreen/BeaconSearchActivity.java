@@ -1,4 +1,4 @@
-package pl.marcin.inzynierka.FirstScreen;
+package pl.marcin.inzynierka.MVPs.FirstScreen;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -14,9 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import pl.marcin.inzynierka.Connection.ConnectionAvailability;
-import pl.marcin.inzynierka.Connection.ServerConnectionModel;
-import pl.marcin.inzynierka.MainMenu.QueuesActivity;
+import pl.marcin.inzynierka.Backend.Connection.ConnectionAvailability;
+import pl.marcin.inzynierka.Backend.Connection.ServerConnectionModel;
+import pl.marcin.inzynierka.MVPs.TicketDatabaseMenu.TicketDatabaseActivity;
+import pl.marcin.inzynierka.MVPs.QueuesMenu.QueuesActivity;
 import pl.marcin.inzynierka.R;
 
 import static pl.marcin.inzynierka.R.layout.activity_main;
@@ -38,6 +39,8 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
         findViewById(R.id.start_button).setOnClickListener(this);
+        findViewById(R.id.database).setOnClickListener(this);
+
         changeIP = (Button) findViewById(R.id.change);
         changeIP.setOnClickListener(this);
         changeIP.setVisibility(View.VISIBLE);
@@ -113,6 +116,9 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
                             counter = 0;
                         }
                 break;
+
+            case R.id.database:
+                startActivity(new Intent(this, TicketDatabaseActivity.class));
         }
     }
 

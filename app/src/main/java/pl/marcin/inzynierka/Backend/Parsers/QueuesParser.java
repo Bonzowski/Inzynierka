@@ -1,11 +1,10 @@
-package pl.marcin.inzynierka.Parsers;
+package pl.marcin.inzynierka.Backend.Parsers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Marcin on 06.11.2016.

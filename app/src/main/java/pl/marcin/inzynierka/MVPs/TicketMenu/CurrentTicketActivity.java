@@ -1,11 +1,13 @@
-package pl.marcin.inzynierka.TicketMenu;
+package pl.marcin.inzynierka.MVPs.TicketMenu;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import pl.marcin.inzynierka.Backend.Database.TicketDataSource;
 import pl.marcin.inzynierka.R;
 
 import static pl.marcin.inzynierka.R.layout.ticket;
@@ -14,11 +16,13 @@ import static pl.marcin.inzynierka.R.layout.ticket;
  * Created by Marcin on 05.11.2016.
  */
 
-public class TicketActivity extends AppCompatActivity {
+public class CurrentTicketActivity extends AppCompatActivity {
 
     private TextView queue;
     private TextView tickett;
     private TextView date;
+    private TicketDataSource datasource;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class TicketActivity extends AppCompatActivity {
         tickett = (TextView) findViewById(R.id.ticket_id);
         date = (TextView) findViewById(R.id.date);
 
-        Intent intent = getIntent();
+        intent = getIntent();
 
         queue.setText("" + intent.getIntExtra("queue_id", 0));
         tickett.setText(""+ intent.getIntExtra("ticket_id", 0));
@@ -51,5 +55,13 @@ public class TicketActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public void deactivate(View view) {
+        switch (view.getId()) {
+            case R.id.deactivate:
+                datasource = new TicketDataSource(view.getContext());
+                datasource.deactivateTicketInDatabase(intent.getStringExtra("date"));
+                Toast.makeText(getBaseContext(), "Ticket deactivated", Toast.LENGTH_LONG);
+        }
+    }
 
 }

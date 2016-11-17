@@ -1,9 +1,12 @@
-package pl.marcin.inzynierka.FirstScreen;
+package pl.marcin.inzynierka.MVPs.FirstScreen;
 
 import android.content.Context;
+
+import com.kontakt.sdk.android.common.profile.IBeaconDevice;
+
 import java.util.Observable;
 import java.util.Observer;
-import pl.marcin.inzynierka.Connection.ConnectionAvailability;
+import pl.marcin.inzynierka.Backend.Connection.ConnectionAvailability;
 
 
 /**
@@ -35,7 +38,8 @@ public class BeaconSearchPresenter implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-        if (searchBeaconsModel.getIBeaconDevices().size() == 1 || searchBeaconsModel.getIEddyStoneDevices().size() == 1)
+        IBeaconDevice found = (IBeaconDevice) data;
+        if( found.getMajor() == 11111)
            view.navigateToQueues();
     }
 

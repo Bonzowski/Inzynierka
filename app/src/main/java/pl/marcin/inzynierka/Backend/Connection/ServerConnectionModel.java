@@ -1,4 +1,4 @@
-package pl.marcin.inzynierka.Connection;
+package pl.marcin.inzynierka.Backend.Connection;
 
 import android.os.AsyncTask;
 
@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Observable;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

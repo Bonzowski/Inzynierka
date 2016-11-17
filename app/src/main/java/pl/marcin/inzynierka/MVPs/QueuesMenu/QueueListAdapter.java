@@ -1,14 +1,12 @@
-package pl.marcin.inzynierka.MainMenu;
+package pl.marcin.inzynierka.MVPs.QueuesMenu;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 

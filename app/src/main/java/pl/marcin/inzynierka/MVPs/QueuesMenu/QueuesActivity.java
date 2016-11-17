@@ -1,38 +1,21 @@
-package pl.marcin.inzynierka.MainMenu;
+package pl.marcin.inzynierka.MVPs.QueuesMenu;
 
         import android.app.Activity;
-        import android.app.ListActivity;
-        import android.app.LoaderManager;
-        import android.app.ProgressDialog;
         import android.content.Intent;
-        import android.content.Loader;
-        import android.database.Cursor;
         import android.os.Bundle;
-        import android.os.Handler;
-        import android.os.Message;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.Menu;
-        import android.view.View;
-        import android.widget.ArrayAdapter;
         import android.widget.ListView;
         import android.widget.Toast;
 
         import org.json.JSONException;
 
-        import java.util.ArrayList;
-        import java.util.Arrays;
-        import java.util.List;
         import java.util.concurrent.ExecutionException;
 
         import pl.marcin.inzynierka.R;
-        import pl.marcin.inzynierka.TicketMenu.TicketActivity;
-
-        import static pl.marcin.inzynierka.R.layout.queues_list;
+        import pl.marcin.inzynierka.MVPs.TicketMenu.CurrentTicketActivity;
 
 public class QueuesActivity extends Activity {
 
     private QueuesPresenter presenter;
-    private ProgressDialog progressDialog;
     private ListView queuesList;
 
     @Override
@@ -40,7 +23,7 @@ public class QueuesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.queues_list);
 
-        queuesList = (ListView) findViewById(R.id.list);
+        queuesList = (ListView) findViewById(R.id.listQueues);
 
         if (presenter == null)
             presenter = new QueuesPresenter();
@@ -61,11 +44,7 @@ public class QueuesActivity extends Activity {
     @Override
     public void onStart(){
         super.onStart();
-        queuesList.setAdapter(new QueueListAdapter(this,
-                presenter.queuesAnswer.queueName,
-                presenter.queuesAnswer.queueDesc,
-                presenter.queuesAnswer.currentTicket,
-                presenter.queuesAnswer.lastTicket, presenter ));
+        setAdapter();
     }
 
     @Override
@@ -90,13 +69,16 @@ public class QueuesActivity extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        queuesList.setAdapter(new QueueListAdapter(this,
-                presenter.queuesAnswer.queueName,
-                presenter.queuesAnswer.queueDesc,
-                presenter.queuesAnswer.currentTicket,
-                presenter.queuesAnswer.lastTicket, presenter ));
+        setAdapter();
     }
 
+    private void setAdapter(){
+    queuesList.setAdapter(new QueueListAdapter(this,
+            presenter.parsedQueues.queueName,
+            presenter.parsedQueues.queueDesc,
+            presenter.parsedQueues.currentTicket,
+            presenter.parsedQueues.lastTicket, presenter ));
+    }
 
     @Override
     protected void onDestroy() {
@@ -114,7 +96,7 @@ public class QueuesActivity extends Activity {
     //opening ticket activity
     public void navigateToTicket(Integer queue, Integer id, String date) {
 
-        Intent ticketIntent = new Intent(this, TicketActivity.class);
+        Intent ticketIntent = new Intent(this, CurrentTicketActivity.class);
         ticketIntent.putExtra("queue_id", queue);
         ticketIntent.putExtra("ticket_id", id);
         ticketIntent.putExtra("date", date);

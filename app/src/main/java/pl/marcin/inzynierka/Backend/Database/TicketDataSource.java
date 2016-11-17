@@ -1,4 +1,4 @@
-package pl.marcin.inzynierka.Database;
+package pl.marcin.inzynierka.Backend.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,7 +32,7 @@ public class TicketDataSource {
         dbHelper.close();
     }
 
-    public Ticket createTicket(int queue_id, int ticket_id, String date, int isActive){
+    public TicketDatabaseObject createTicket(int queue_id, int ticket_id, String date, int isActive){
         ContentValues values = new ContentValues();
 
         values.put(TicketSQLiteHelper.QUEUE_ID, queue_id);
@@ -46,47 +46,55 @@ public class TicketDataSource {
                 null, null, null);
 
         cursor.moveToFirst();
-        Ticket newTicket = cursorToComment(cursor);
+        TicketDatabaseObject newTicketDatabaseObject = cursorToTicket(cursor);
         cursor.close();
-        return newTicket;
+        return newTicketDatabaseObject;
 
     }
 
-   /* public void deleteComment(Comment comment) {
-        long id = comment.getId();
-        System.out.println("Comment deleted with id: " + id);
-        database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
-    }*/
+    public void deleteTickets() {
+        this.open();
+        database.delete(TicketSQLiteHelper.TABLE_TICKETS, null, null);
+        this.close();
+    }
 
-    public List<Ticket> getAllTickets() {
-        List<Ticket> comments = new ArrayList<Ticket>();
+    public void deactivateTicketInDatabase(String date){
+        this.open();
+        ContentValues value = new ContentValues();
+        value.put (TicketSQLiteHelper.IS_ACTIVE, 0);
+        database.update(TicketSQLiteHelper.TABLE_TICKETS, value, TicketSQLiteHelper.DATE + " = '" + date + "'", null );
+        this.close();
+
+    }
+
+    public List<TicketDatabaseObject> getAllTickets() {
+        List<TicketDatabaseObject> tickets = new ArrayList<TicketDatabaseObject>();
 
         Cursor cursor = database.query(TicketSQLiteHelper.TABLE_TICKETS,
                 allColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Ticket ticket = cursorToComment(cursor);
-            comments.add(ticket);
+            TicketDatabaseObject ticketDatabaseObject = cursorToTicket(cursor);
+            tickets.add(ticketDatabaseObject);
             cursor.moveToNext();
         }
         // make sure to close the cursor
         cursor.close();
-        return comments;
+        return tickets;
     }
 
 
-    private Ticket cursorToComment(Cursor cursor) {
-        Ticket ticket = new Ticket();
+    private TicketDatabaseObject cursorToTicket(Cursor cursor) {
+        TicketDatabaseObject ticketDatabaseObject = new TicketDatabaseObject();
 
-        ticket.setKey(cursor.getLong(0));
-        ticket.setQueue_id(cursor.getInt(1));
-        ticket.setTicket_id(cursor.getInt(2));
-        ticket.setDate(cursor.getString(3));
-        ticket.setIsActive(cursor.getInt(4));
+        ticketDatabaseObject.setKey(cursor.getLong(0));
+        ticketDatabaseObject.setQueue_id(cursor.getInt(1));
+        ticketDatabaseObject.setTicket_id(cursor.getInt(2));
+        ticketDatabaseObject.setDate(cursor.getString(3));
+        ticketDatabaseObject.setIsActive(cursor.getInt(4));
 
-        return ticket;
+        return ticketDatabaseObject;
     }
 
 }
