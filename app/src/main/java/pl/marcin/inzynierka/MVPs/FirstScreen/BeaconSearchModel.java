@@ -44,7 +44,8 @@ public class BeaconSearchModel extends Observable {
     }
 
     protected void onStop() {
-        proximityManager.stopScanning();
+        if (proximityManager != null)
+            proximityManager.stopScanning();
 
     }
 

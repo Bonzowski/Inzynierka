@@ -84,7 +84,6 @@ public class QueuesActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         presenter.onTakeView(null);
-        //presenter.destroyModel();
         if (!isChangingConfigurations())
             presenter = null;
     }

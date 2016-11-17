@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".FirstScreen.BeaconSearchActivity"
+        <activity android:name=".MVPs.FirstScreen.BeaconSearchActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,21 +27,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Database.TicketDatabaseActivity"
+        <activity android:name=".MVPs.TicketDatabaseMenu.TicketDatabaseActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".QueuesMenu.QueuesActivity"
+        <activity android:name=".MVPs.QueuesMenu.QueuesActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".TicketMenu.CurrentTicketActivity"
+        <activity android:name=".MVPs.TicketMenu.CurrentTicketActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

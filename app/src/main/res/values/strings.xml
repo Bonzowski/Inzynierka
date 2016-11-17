@@ -2,8 +2,11 @@
     <string name="app_name">Inzynierka</string>
     <string name="kontakt_io_api_key" >SUoQzqUZrZGoyInQBKvbSsqHxRYLCwbu</string>
     <string name="no_internet"> No internet connection. Try again. </string>
-    <string name="no_bluetooth"> BlueTooth is not enabled. Try again. </string>
+    <string name="no_bluetooth"> Bluetooth is not enabled. Try again. </string>
     <string name="no_beacons"> No beacons in range. Try again. </string>
+    <string name="ticket_deactivated">"Ticket deactivated"</string>
+
+
     <string name="get_Queues">/queues</string>
     <string name="get_Ticket">/getTicket?queue_id=</string>
 </resources>

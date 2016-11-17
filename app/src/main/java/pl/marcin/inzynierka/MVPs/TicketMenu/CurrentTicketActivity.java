@@ -60,7 +60,7 @@ public class CurrentTicketActivity extends AppCompatActivity {
             case R.id.deactivate:
                 datasource = new TicketDataSource(view.getContext());
                 datasource.deactivateTicketInDatabase(intent.getStringExtra("date"));
-                Toast.makeText(getBaseContext(), "Ticket deactivated", Toast.LENGTH_LONG);
+                Toast.makeText(getBaseContext(), R.string.ticket_deactivated, Toast.LENGTH_LONG).show();
         }
     }
 

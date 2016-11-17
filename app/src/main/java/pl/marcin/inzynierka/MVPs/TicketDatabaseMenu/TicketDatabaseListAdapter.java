@@ -1,16 +1,20 @@
 package pl.marcin.inzynierka.MVPs.TicketDatabaseMenu;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import pl.marcin.inzynierka.Backend.Database.TicketDatabaseObject;
+import pl.marcin.inzynierka.MVPs.TicketMenu.CurrentTicketActivity;
 import pl.marcin.inzynierka.R;
 
 /**
@@ -46,9 +50,9 @@ public class TicketDatabaseListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final int ps = position;
+    public View getView(int position, final View convertView, ViewGroup parent) {
 
+        final int ps = position;
         TicketDatabaseListAdapter.Holder holder = new TicketDatabaseListAdapter.Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.obtained_ticket_details, null);
@@ -65,13 +69,41 @@ public class TicketDatabaseListAdapter extends BaseAdapter {
         holder.hticketId.setText("Ticket ID: " + ticketsInDatabse.get(ticketsInDatabse.size()-position-1).getTicket_id());
         holder.hDate.setText("Issued: " + ticketsInDatabse.get(ticketsInDatabse.size()-position-1).getDate());
 
-        if (ticketsInDatabse.get(ticketsInDatabse.size()-position-1).getIsActive() ==1)
+        if (ticketsInDatabse.get(ticketsInDatabse.size()-position-1).getIsActive() == 1)
             holder.hImage.setImageResource(images[1]);
         else
             holder.hImage.setImageResource(images[0]);
 
+        if (position%2 == 0)
+                rowView.setBackgroundColor(Color.LTGRAY);
+
+
+        //clickers
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ticketsInDatabse.get(ticketsInDatabse.size()-ps-1).getIsActive() == 1)
+                    presenter.openIfActive(
+                            ticketsInDatabse.get(ticketsInDatabse.size()-ps-1).getQueue_id(),
+                            ticketsInDatabse.get(ticketsInDatabse.size()-ps-1).getTicket_id(),
+                            ticketsInDatabse.get(ticketsInDatabse.size()-ps-1).getDate());
+                else
+                    Toast.makeText(v.getContext(), "Ticket is not active anymore", Toast.LENGTH_SHORT).show();
+            }});
+
+        rowView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v) {
+                if (ticketsInDatabse.get(ticketsInDatabse.size()-ps-1).getIsActive() == 1)
+                    presenter.longClick(ticketsInDatabse.get(ticketsInDatabse.size()-ps-1).getDate());
+                    return false;
+            }
+        });
+
+
         return rowView;
     }
+
 
     @Override
     public int getCount() {
@@ -87,4 +119,5 @@ public class TicketDatabaseListAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
 }

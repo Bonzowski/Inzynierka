@@ -54,7 +54,6 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onStart(){
         super.onStart();
-
     }
 
     @Override
@@ -64,8 +63,6 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
             bPresenter = new BeaconSearchPresenter();
         bPresenter.onTakeView(this);
     }
-
-
 
     //handling the UI changes
     public Handler progressHandler = new Handler(){
@@ -105,6 +102,7 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
                             else
                                 progressHandler.sendEmptyMessage(2);
                                 searchingForBeaconsThread.interrupt();
+                                bPresenter.stopScanning();
                     }
                 }, 4000);
                 break;
@@ -153,7 +151,7 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                bPresenter.startScanning(getBaseContext());
+                bPresenter.startScanning();
             }
         });
     }
@@ -174,7 +172,6 @@ public class BeaconSearchActivity extends AppCompatActivity implements View.OnCl
     //forth and back navigation
     public void navigateToQueues(){
         progressHandler.sendEmptyMessage(3);
-        bPresenter.stopScanning();
         beaconFound = true;
         if (ConnectionAvailability.IsNetworkEnabled(this)){
             bPresenter.destroyModel();

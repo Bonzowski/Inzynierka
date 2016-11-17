@@ -13,6 +13,7 @@ public class TicketDatabasePresenter {
     private TicketDataSource datasource;
     private TicketDatabaseActivity view;
     private Context context;
+    String dateofTicketToDelete = null;
 
     public TicketDatabasePresenter() {}
 
@@ -25,6 +26,21 @@ public class TicketDatabasePresenter {
     public void deleteAllComments(){
         datasource = new TicketDataSource(context);
         datasource.deleteTickets();
+    }
+
+    public void longClick(String dateofTicketToDelete){
+        this.dateofTicketToDelete = dateofTicketToDelete;
+        view.deactivatePopup();
+    }
+
+    public void deactivateTicketConfirmed(){
+        datasource = new TicketDataSource(context);
+        datasource.deactivateTicketInDatabase(dateofTicketToDelete);
+        dateofTicketToDelete = null;
+    }
+
+    public void openIfActive(Integer i, Integer j, String s){
+        view.navigateToTicket(i,j,s);
     }
 
 }

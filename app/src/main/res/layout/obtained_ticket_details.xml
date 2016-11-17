@@ -10,8 +10,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:contentDescription="TODO"
-        android:src="@drawable/common_signin_btn_icon_focus_light" />
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/Q"
@@ -24,18 +23,6 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/T"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/Q"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/icon"
-        android:gravity="center_vertical"
-        android:text="Ticket number" />
-
-    <TextView
         android:id="@+id/D"
         android:layout_width="wrap_content"
         android:layout_height="26dip"
@@ -46,5 +33,26 @@
         android:ellipsize="marquee"
         android:text="Date of issue"
         android:textSize="12sp" />
+
+    <TextView
+        android:text="ID"
+        android:layout_width="50dp"
+        android:id="@+id/databaseID"
+        android:gravity="center_vertical"
+        android:layout_height="26dip"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/icon" />
+
+    <TextView
+        android:text="Ticket number"
+        android:layout_width="wrap_content"
+        android:id="@+id/T"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:layout_height="26dip"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/databaseID" />
+
 
 </RelativeLayout>

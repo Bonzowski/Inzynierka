@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QueuesMenu.QueuesActivity"
+    tools:context=".MVPs.QueuesMenu.QueuesActivity"
     android:orientation="vertical">
 
     <TextView
@@ -20,13 +20,13 @@
         android:id="@+id/rowQueueDescription" />
 
     <TextView
-        android:text="Last ticket"
+        android:text="Last ticketDatabaseObject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rowQueueLastTicket" />
 
     <TextView
-        android:text="Current ticket"
+        android:text="Current ticketDatabaseObject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rowQueueCurrentTicket" />

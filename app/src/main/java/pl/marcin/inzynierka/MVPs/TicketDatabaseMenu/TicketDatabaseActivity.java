@@ -15,6 +15,7 @@ import java.util.List;
 import pl.marcin.inzynierka.Backend.Connection.ServerConnectionModel;
 import pl.marcin.inzynierka.Backend.Database.TicketDataSource;
 import pl.marcin.inzynierka.Backend.Database.TicketDatabaseObject;
+import pl.marcin.inzynierka.MVPs.TicketMenu.CurrentTicketActivity;
 import pl.marcin.inzynierka.R;
 
 /**
@@ -48,6 +49,8 @@ public class TicketDatabaseActivity extends ListActivity {
     @Override
     protected void onResume() {
         datasource.open();
+        values = datasource.getAllTickets();
+        ticketsList.setAdapter(new TicketDatabaseListAdapter(this, values, presenter));
         super.onResume();
     }
 
@@ -61,11 +64,11 @@ public class TicketDatabaseActivity extends ListActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.delete:
-                alertPopup();
+                deletePopup();
         }
     }
 
-    public void alertPopup(){
+    public void deletePopup(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("Warning");
@@ -87,6 +90,40 @@ public class TicketDatabaseActivity extends ListActivity {
         });
 
         alert.show();
+    }
+
+    public void deactivatePopup(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Warning");
+        alert.setMessage("Do you want to deactivate this ticket?");
+
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                presenter.deactivateTicketConfirmed();
+                finish();
+                startActivity(new Intent(getBaseContext(), TicketDatabaseActivity.class));
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {}
+        });
+
+        alert.show();
+
+    }
+
+    public void navigateToTicket(Integer queue, Integer id, String date) {
+
+        Intent ticketIntent = new Intent(this, CurrentTicketActivity.class);
+        ticketIntent.putExtra("queue_id", queue);
+        ticketIntent.putExtra("ticket_id", id);
+        ticketIntent.putExtra("date", date);
+
+        startActivity(ticketIntent);
     }
 
 }

@@ -23,12 +23,12 @@ public class BeaconSearchPresenter implements Observer {
 
     public void onTakeView(BeaconSearchActivity view) {
         this.view = view;
+        searchBeaconsModel = new BeaconSearchModel(view.getBaseContext());
     }
 
     // searching for beacons section
-    public void startScanning(Context c) {
+    public void startScanning() {
         if(ConnectionAvailability.IsBlueToothEnabled()) {
-            searchBeaconsModel = new BeaconSearchModel(c);
             searchBeaconsModel.startScanning();
             searchBeaconsModel.addObserver(this);
         }
@@ -39,8 +39,10 @@ public class BeaconSearchPresenter implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         IBeaconDevice found = (IBeaconDevice) data;
-        if( found.getMajor() == 11111)
-           view.navigateToQueues();
+        if( found.getMajor() == 11111) {
+            view.navigateToQueues();
+            stopScanning();
+        }
     }
 
     public void stopScanning(){
