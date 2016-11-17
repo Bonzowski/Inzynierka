@@ -3,6 +3,7 @@ package pl.marcin.inzynierka.MVPs.QueuesMenu;
         import android.app.Activity;
         import android.content.Intent;
         import android.os.Bundle;
+        import android.support.v4.widget.SwipeRefreshLayout;
         import android.widget.ListView;
         import android.widget.Toast;
 
@@ -15,6 +16,7 @@ package pl.marcin.inzynierka.MVPs.QueuesMenu;
 
 public class QueuesActivity extends Activity {
 
+    private SwipeRefreshLayout swipeContainer;
     private QueuesPresenter presenter;
     private ListView queuesList;
 
@@ -24,6 +26,7 @@ public class QueuesActivity extends Activity {
         setContentView(R.layout.queues_list);
 
         queuesList = (ListView) findViewById(R.id.listQueues);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
         if (presenter == null)
             presenter = new QueuesPresenter();
@@ -38,13 +41,32 @@ public class QueuesActivity extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onStart(){
         super.onStart();
         setAdapter();
+        enableSwipe();
+    }
+
+    public void enableSwipe(){
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    presenter.getQueues();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                setAdapter();
+                swipeContainer.setRefreshing(false);
+            }
+        });
     }
 
     @Override
