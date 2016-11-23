@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import pl.marcin.inzynierka.Backend.Database.TicketDataSource;
+import pl.marcin.inzynierka.MVPs.FirstScreen.BeaconSearchPresenter;
 import pl.marcin.inzynierka.R;
 
 import static pl.marcin.inzynierka.R.layout.ticket;
@@ -18,11 +19,13 @@ import static pl.marcin.inzynierka.R.layout.ticket;
 
 public class CurrentTicketActivity extends AppCompatActivity {
 
+    private CurrentTicketPresenter ticketPresenter;
     private TextView queue;
     private TextView tickett;
     private TextView date;
-    private TicketDataSource datasource;
-    private Intent intent;
+
+    protected Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,10 @@ public class CurrentTicketActivity extends AppCompatActivity {
         queue.setText("" + intent.getIntExtra("queue_id", 0));
         tickett.setText(""+ intent.getIntExtra("ticket_id", 0));
         date.setText("" + intent.getStringExtra("date"));
+
+        if (ticketPresenter == null)
+            ticketPresenter = new CurrentTicketPresenter();
+        ticketPresenter.onTakeView(this);
     }
 
     @Override
@@ -51,16 +58,26 @@ public class CurrentTicketActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        ticketPresenter.startScanning();
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
+        ticketPresenter.stopScanning();
+    }
+
+    public void ticketDeactivated(){
+        Toast.makeText(getBaseContext(), R.string.ticket_deactivated, Toast.LENGTH_LONG).show();
     }
 
     public void deactivate(View view) {
         switch (view.getId()) {
             case R.id.deactivate:
-                datasource = new TicketDataSource(view.getContext());
-                datasource.deactivateTicketInDatabase(intent.getStringExtra("date"));
-                Toast.makeText(getBaseContext(), R.string.ticket_deactivated, Toast.LENGTH_LONG).show();
+               ticketPresenter.deactivateTicket();
+               ticketDeactivated();
         }
     }
 

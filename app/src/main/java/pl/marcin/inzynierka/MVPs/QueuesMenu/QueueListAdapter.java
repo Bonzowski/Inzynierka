@@ -55,9 +55,9 @@ public class QueueListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, final View convertView, ViewGroup parent) {
+    public View getView(int position, final View convertView, ViewGroup parent) {final int ps = position;
 
-        final int ps = position;
+
 
         Holder holder = new Holder();
         View rowView;

@@ -32,7 +32,7 @@ public class BeaconSearchModel extends Observable {
     private ArrayList<IEddystoneDevice> iEddyStoneDevices;
 
 
-    BeaconSearchModel(Context context){
+    public BeaconSearchModel(Context context){
 
         KontaktSDK.initialize(context.getString(R.string.kontakt_io_api_key));
         proximityManager = new ProximityManager(context);
@@ -43,7 +43,7 @@ public class BeaconSearchModel extends Observable {
 
     }
 
-    protected void onStop() {
+    public void onStop() {
         if (proximityManager != null)
             proximityManager.stopScanning();
 
